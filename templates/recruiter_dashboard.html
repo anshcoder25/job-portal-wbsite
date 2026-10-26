@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Recruiter Dashboard | Job Portal</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0f766e;
+            --primary-dark: #115e59;
+            --primary-light: #ccfbf1;
+            --background: #f4f7fb;
+            --text: #1e293b;
+            --muted: #64748b;
+            --border: #e2e8f0;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #0f766e, #164e63);
+            color: var(--white);
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            box-shadow: 0 3px 12px rgba(15, 23, 42, 0.12);
+        }
+
+        header h2 {
+            font-size: 25px;
+            letter-spacing: 0.3px;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 9px 13px;
+            border-radius: 6px;
+            transition: background 0.2s ease;
+        }
+
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .logout-form {
+            display: inline-flex;
+            margin: 0;
+        }
+
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.12);
+            color: var(--white);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            padding: 9px 15px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .logout-btn:hover {
+            background: var(--white);
+            color: var(--primary-dark);
+        }
+
+        /* Main content */
+        .container {
+            width: 90%;
+            max-width: 1150px;
+            margin: 35px auto;
+            flex: 1;
+        }
+
+        /* Welcome section */
+        .welcome {
+            position: relative;
+            overflow: hidden;
+            background: var(--white);
+            padding: 36px;
+            border: 1px solid var(--border);
+            border-left: 5px solid var(--primary);
+            border-radius: 14px;
+            box-shadow: 0 5px 20px rgba(15, 23, 42, 0.04);
+        }
+
+        .welcome-label {
+            display: inline-block;
+            background: #ccfbf1;
+            color: #115e59;
+            padding: 5px 11px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .welcome h1 {
+            color: #0f172a;
+            font-size: 30px;
+            line-height: 1.3;
+            margin-bottom: 12px;
+            overflow-wrap: anywhere;
+        }
+
+        .welcome p {
+            color: #475569;
+            margin-bottom: 10px;
+            max-width: 760px;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            margin-top: 14px;
+            padding: 11px 17px;
+            background: var(--primary);
+            color: var(--white);
+            text-decoration: none;
+            border: 1px solid var(--primary);
+            border-radius: 7px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s ease,
+                        transform 0.2s ease,
+                        box-shadow 0.2s ease;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            border-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(15, 118, 110, 0.18);
+        }
+
+        .btn:focus-visible,
+        nav a:focus-visible,
+        .logout-btn:focus-visible {
+            outline: 3px solid #5eead4;
+            outline-offset: 3px;
+        }
+
+        /* Dashboard cards */
+        .section-heading {
+            margin: 32px 0 17px;
+        }
+
+        .section-heading h2 {
+            font-size: 22px;
+            color: #0f172a;
+            margin-bottom: 4px;
+        }
+
+        .section-heading p {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(
+                auto-fit,
+                minmax(235px, 1fr)
+            );
+            gap: 22px;
+        }
+
+        .card {
+            background: var(--white);
+            padding: 25px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(15, 23, 42, 0.035);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            transition: transform 0.2s ease,
+                        box-shadow 0.2s ease,
+                        border-color 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: #99f6e4;
+            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.07);
+        }
+
+        .card-icon {
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ccfbf1;
+            color: #0f766e;
+            border-radius: 10px;
+            font-size: 22px;
+            margin-bottom: 17px;
+        }
+
+        .card h3 {
+            color: #0f766e;
+            font-size: 19px;
+            margin-bottom: 9px;
+        }
+
+        .card p {
+            color: #475569;
+            line-height: 1.7;
+            font-size: 14px;
+            flex-grow: 1;
+        }
+
+        /* Django messages */
+        .messages {
+            margin-bottom: 22px;
+        }
+
+        .message {
+            padding: 13px 16px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            background: #dbeafe;
+            color: #1e40af;
+            border: 1px solid #bfdbfe;
+        }
+
+        .message.success {
+            background: #dcfce7;
+            color: #166534;
+            border-color: #bbf7d0;
+        }
+
+        .message.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border-color: #fecaca;
+        }
+
+        .message.warning {
+            background: #fef3c7;
+            color: #92400e;
+            border-color: #fde68a;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 22px 15px;
+            color: var(--muted);
+            font-size: 13px;
+            border-top: 1px solid var(--border);
+            background: var(--white);
+            margin-top: 25px;
+        }
+
+        /* Responsive design */
+        @media (max-width: 600px) {
+            header {
+                padding: 17px 5%;
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            header h2 {
+                font-size: 23px;
+            }
+
+            nav {
+                gap: 7px;
+            }
+
+            nav a {
+                padding: 8px 9px;
+                font-size: 14px;
+            }
+
+            .logout-btn {
+                padding: 8px 11px;
+            }
+
+            .container {
+                width: 92%;
+                margin: 23px auto;
+            }
+
+            .welcome {
+                padding: 24px 20px;
+            }
+
+            .welcome h1 {
+                font-size: 25px;
+            }
+
+            .section-heading h2 {
+                font-size: 20px;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .card {
+                padding: 22px;
+            }
+
+            .card .btn,
+            .welcome .btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <h2>Job Portal</h2>
+
+        <nav>
+            <a href="{% url 'home' %}">Home</a>
+
+            <a href="{% url 'recruiter_dashboard' %}">
+                Dashboard
+            </a>
+
+            <form
+                class="logout-form"
+                method="POST"
+                action="{% url 'logout' %}"
+            >
+                {% csrf_token %}
+                <button class="logout-btn" type="submit">
+                    Logout
+                </button>
+            </form>
+        </nav>
+    </header>
+
+    <!-- Main Dashboard -->
+    <main class="container">
+
+        <!-- Django messages -->
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message {{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <!-- Welcome section -->
+        <section class="welcome">
+            <span class="welcome-label">
+                Recruiter Workspace
+            </span>
+
+            <h1>
+                Welcome, {{ request.user.username }}!
+            </h1>
+
+            <p>
+                You are logged in as a Recruiter.
+            </p>
+
+            <p>
+                Apni job listings post karein, candidates ki
+                applications review karein aur suitable talent
+                ko apni opportunities se connect karein.
+            </p>
+
+            <a class="btn" href="{% url 'post_job' %}">
+                + Post a New Job
+            </a>
+        </section>
+
+        <!-- Dashboard cards heading -->
+        <section class="section-heading">
+            <h2>Recruiter Tools</h2>
+            <p>
+                Manage your job listings and candidate applications
+                from one place.
+            </p>
+        </section>
+
+        <!-- Dashboard feature cards -->
+        <section class="cards">
+
+            <!-- Post a Job -->
+            <article class="card">
+                <div class="card-icon" aria-hidden="true">＋</div>
+
+                <h3>Post a Job</h3>
+
+                <p>
+                    Nayi job listing create karein aur job title,
+                    company, location, salary aur required skills
+                    jaise details add karein.
+                </p>
+
+                <a class="btn" href="{% url 'post_job' %}">
+                    Post Job
+                </a>
+            </article>
+
+            <!-- Manage Jobs -->
+            <article class="card">
+                <div class="card-icon" aria-hidden="true">▤</div>
+
+                <h3>Manage Jobs</h3>
+
+                <p>
+                    Apni posted jobs dekhein aur available management
+                    options ka use karke listings ko manage karein.
+                </p>
+
+                <a class="btn" href="{% url 'manage_jobs' %}">
+                    Manage Jobs
+                </a>
+            </article>
+
+            <!-- Applications -->
+            <article class="card">
+                <div class="card-icon" aria-hidden="true">✓</div>
+
+                <h3>Candidate Applications</h3>
+
+                <p>
+                    Apni job listings par aayi applications review
+                    karein aur candidates ka application status
+                    update karein.
+                </p>
+
+                <a class="btn" href="{% url 'view_applications' %}">
+                    View Applications
+                </a>
+            </article>
+
+            <!-- Browse Jobs -->
+            <article class="card">
+                <div class="card-icon" aria-hidden="true">⌕</div>
+
+                <h3>Browse Jobs</h3>
+
+                <p>
+                    Job Portal ke home page par available job
+                    opportunities explore karein.
+                </p>
+
+                <a class="btn" href="{% url 'home' %}">
+                    Explore Portal
+                </a>
+            </article>
+
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        &copy; {% now "Y" %} Job Portal. All rights reserved.
+    </footer>
+
+</body>
+</html>

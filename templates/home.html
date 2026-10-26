@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Job Portal | Find Your Dream Job</title>
+    <meta name="description" content="Discover job opportunities, explore careers and find your next professional opportunity with Job Portal.">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #3157d5;
+            --primary-dark: #2445b5;
+            --text: #172033;
+            --muted: #687386;
+            --border: #e5e9f2;
+            --background: #f7f9fe;
+            --white: #ffffff;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 90px;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--text);
+            background: var(--background);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        button,
+        input {
+            font: inherit;
+        }
+
+        .container {
+            width: min(1120px, 92%);
+            margin: auto;
+        }
+
+        /* Header and Navigation */
+
+        header {
+            background: rgba(255, 255, 255, 0.97);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            min-height: 76px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            padding: 12px 0;
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            color: var(--primary);
+            font-size: 25px;
+            font-weight: 800;
+            letter-spacing: -0.7px;
+        }
+
+        .logo-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 39px;
+            height: 39px;
+            color: white;
+            background: var(--primary);
+            border-radius: 11px;
+            font-size: 19px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a:not(.primary) {
+            color: #39445a;
+            font-size: 14px;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links .primary {
+            color: white;
+            background: var(--primary);
+            padding: 10px 17px;
+            border-radius: 8px;
+        }
+
+        .nav-links .primary:hover {
+            color: white;
+            background: var(--primary-dark);
+        }
+
+        .nav-links form {
+            display: inline;
+        }
+
+        /* Buttons */
+
+        .btn {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            padding: 12px 19px;
+            background: var(--primary);
+            color: white;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: white;
+            color: var(--primary);
+            border-color: #d5defb;
+        }
+
+        .btn-outline:hover {
+            background: #f0f4ff;
+            color: var(--primary-dark);
+        }
+
+        /* Messages */
+
+        .messages {
+            margin: 15px auto;
+            max-width: 850px;
+        }
+
+        .message {
+            padding: 12px 16px;
+            background: #fff5e8;
+            border: 1px solid #f4d7a9;
+            color: #7b4b0a;
+            border-radius: 9px;
+            margin-bottom: 8px;
+        }
+
+        /* Hero Section */
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+            padding: 78px 0 65px;
+            text-align: center;
+            background:
+                radial-gradient(ellipse at top left, #dfe7ff 0%, transparent 48%),
+                linear-gradient(135deg, #f0f3ff, #ffffff 65%);
+        }
+
+        .eyebrow {
+            display: inline-block;
+            color: var(--primary);
+            background: #e3eaff;
+            border: 1px solid #d5e0ff;
+            padding: 7px 15px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            max-width: 850px;
+            margin: auto;
+            font-size: clamp(34px, 5.2vw, 58px);
+            line-height: 1.14;
+            letter-spacing: -1.8px;
+        }
+
+        .hero h1 span {
+            color: var(--primary);
+        }
+
+        .hero > .container > p {
+            max-width: 660px;
+            margin: 20px auto 30px;
+            color: var(--muted);
+            font-size: 16px;
+        }
+
+        /* Job Search */
+
+        .search-form {
+            max-width: 900px;
+            margin: auto;
+            padding: 10px;
+            display: flex;
+            gap: 10px;
+            background: white;
+            border: 1px solid #e0e5ef;
+            border-radius: 13px;
+            box-shadow: 0 14px 40px rgba(33, 55, 112, 0.09);
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0 10px;
+        }
+
+        .search-input span {
+            font-size: 19px;
+        }
+
+        .search-form input {
+            width: 100%;
+            min-width: 0;
+            padding: 13px 5px;
+            border: none;
+            outline: none;
+            background: transparent;
+            color: var(--text);
+            font-size: 14px;
+        }
+
+        .search-form input::placeholder {
+            color: #8993a5;
+        }
+
+        .search-form .btn {
+            padding: 13px 22px;
+            white-space: nowrap;
+        }
+
+        /* Statistics */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            max-width: 750px;
+            margin: 32px auto 0;
+        }
+
+        .stat {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid var(--border);
+            padding: 19px 12px;
+            border-radius: 12px;
+            box-shadow: 0 5px 18px rgba(25, 45, 90, 0.03);
+        }
+
+        .stat strong {
+            display: block;
+            color: var(--primary);
+            font-size: 27px;
+            line-height: 1.4;
+        }
+
+        .stat span {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        /* Common Sections */
+
+        section.content-section {
+            padding: 68px 0;
+        }
+
+        .section-heading {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .section-heading h2 {
+            font-size: clamp(25px, 3vw, 32px);
+            line-height: 1.3;
+            letter-spacing: -0.5px;
+            margin-bottom: 9px;
+        }
+
+        .section-heading p {
+            color: var(--muted);
+            font-size: 15px;
+        }
+
+        /* Categories */
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .category {
+            display: block;
+            background: white;
+            padding: 24px 21px;
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            transition: transform 0.2s, box-shadow 0.2s,
+                        border-color 0.2s;
+        }
+
+        .category:hover {
+            transform: translateY(-4px);
+            border-color: #cbd7ff;
+            box-shadow: 0 12px 28px rgba(36, 60, 120, 0.08);
+        }
+
+        .category-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 52px;
+            height: 52px;
+            background: #edf1ff;
+            border-radius: 12px;
+            font-size: 26px;
+            margin-bottom: 15px;
+        }
+
+        .category h3 {
+            font-size: 16px;
+            margin-bottom: 6px;
+        }
+
+        .category p {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        /* Jobs */
+
+        .jobs-section {
+            background: #f0f3fa;
+            border-top: 1px solid #e9edf6;
+            border-bottom: 1px solid #e9edf6;
+        }
+
+        .job-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 21px;
+        }
+
+        .job-card {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            background: white;
+            padding: 23px;
+            border: 1px solid #e2e7f0;
+            border-radius: 13px;
+            overflow-wrap: anywhere;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .job-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(33, 51, 95, 0.08);
+        }
+
+        .job-tag {
+            align-self: flex-start;
+            color: var(--primary);
+            background: #eaf0ff;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 800;
+            margin-bottom: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .job-card h3 {
+            font-size: 19px;
+            line-height: 1.4;
+            margin-bottom: 5px;
+        }
+
+        .company {
+            color: #38445b;
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .job-info {
+            color: var(--muted);
+            font-size: 13px;
+            margin: 3px 0;
+        }
+
+        .description {
+            color: #566176;
+            font-size: 13px;
+            margin: 13px 0;
+            line-height: 1.7;
+        }
+
+        .skills {
+            color: #566176;
+            font-size: 12px;
+            margin-bottom: 12px;
+        }
+
+        .job-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: auto;
+            padding-top: 16px;
+            border-top: 1px solid #edf0f6;
+        }
+
+        .posted {
+            color: #7b8495;
+            font-size: 11px;
+        }
+
+        .apply-btn {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 9px 13px;
+            border-radius: 7px;
+            font-size: 12px;
+            font-weight: 700;
+            transition: background 0.2s;
+        }
+
+        .apply-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 38px 20px;
+            background: white;
+            border: 1px dashed #b9c4d8;
+            border-radius: 13px;
+        }
+
+        .empty-state h3 {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        .empty-state p {
+            color: var(--muted);
+            margin-top: 8px;
+            font-size: 14px;
+        }
+
+        .jobs-intro {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 28px;
+        }
+
+        .jobs-intro h3 {
+            font-size: 18px;
+        }
+
+        .jobs-intro p {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        /* Career Banner */
+
+        .career-banner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 25px;
+            padding: 42px;
+            color: white;
+            background: linear-gradient(120deg, #2445b5, #4169e8);
+            border-radius: 17px;
+            box-shadow: 0 15px 35px rgba(49, 87, 213, 0.17);
+        }
+
+        .career-banner h2 {
+            font-size: clamp(23px, 3vw, 30px);
+            line-height: 1.35;
+        }
+
+        .career-banner p {
+            color: #e0e7ff;
+            margin-top: 8px;
+            font-size: 14px;
+        }
+
+        .career-banner .btn {
+            color: var(--primary);
+            background: white;
+            white-space: nowrap;
+        }
+
+        .career-banner .btn:hover {
+            background: #edf1ff;
+        }
+
+        /* Footer */
+
+        footer {
+            margin-top: 20px;
+            background: #111a2c;
+            color: white;
+            padding: 52px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1.3fr 1fr 1fr;
+            gap: 38px;
+            padding-bottom: 32px;
+        }
+
+        .footer-column h3 {
+            color: white;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        .footer-column > p {
+            color: #bdc6d8;
+            font-size: 13px;
+            margin-top: 10px;
+            max-width: 320px;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 9px;
+        }
+
+        .footer-links a,
+        .footer-contact a {
+            color: #bdc6d8;
+            font-size: 13px;
+            overflow-wrap: anywhere;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover,
+        .footer-contact a:hover {
+            color: #a9bdff;
+        }
+
+        .footer-contact p {
+            color: #bdc6d8;
+            font-size: 13px;
+            margin: 10px 0;
+            overflow-wrap: anywhere;
+        }
+
+        .footer-contact strong {
+            color: white;
+            display: block;
+            margin-bottom: 3px;
+            font-size: 12px;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            border-top: 1px solid #2b3548;
+            padding-top: 20px;
+        }
+
+        .footer-bottom p {
+            color: #9da9bd;
+            font-size: 12px;
+        }
+
+        /* Responsive Design */
+
+        @media (max-width: 900px) {
+            .category-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .job-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .footer-content {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .footer-column:first-child {
+                grid-column: 1 / -1;
+            }
+
+            .nav-links {
+                gap: 14px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            nav {
+                justify-content: center;
+                padding: 14px 0;
+            }
+
+            .logo {
+                font-size: 23px;
+            }
+
+            .nav-links {
+                justify-content: center;
+                gap: 12px;
+            }
+
+            .nav-links a:not(.primary) {
+                font-size: 13px;
+            }
+
+            .nav-links .primary {
+                padding: 8px 12px;
+            }
+
+            .hero {
+                padding: 48px 0 42px;
+            }
+
+            .hero h1 {
+                letter-spacing: -1px;
+            }
+
+            .hero > .container > p {
+                font-size: 14px;
+            }
+
+            .search-form {
+                flex-direction: column;
+                padding: 12px;
+            }
+
+            .search-input {
+                border: 1px solid var(--border);
+                border-radius: 7px;
+                padding: 0 10px;
+            }
+
+            .search-form input {
+                padding: 13px 5px;
+            }
+
+            .search-form .btn {
+                width: 100%;
+            }
+
+            .stats {
+                gap: 8px;
+                margin-top: 24px;
+            }
+
+            .stat {
+                padding: 13px 5px;
+            }
+
+            .stat strong {
+                font-size: 21px;
+            }
+
+            .stat span {
+                font-size: 10px;
+            }
+
+            section.content-section {
+                padding: 45px 0;
+            }
+
+            .category-grid,
+            .job-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .category {
+                padding: 20px;
+            }
+
+            .jobs-intro {
+                align-items: flex-start;
+            }
+
+            .career-banner {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 27px 23px;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 28px;
+            }
+
+            .footer-column:first-child {
+                grid-column: auto;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="container">
+        <nav>
+            <a href="{% url 'home' %}" class="logo">
+                <span class="logo-icon">J</span>
+                Job Portal
+            </a>
+
+            <div class="nav-links">
+                <a href="{% url 'home' %}">Home</a>
+                <a href="#categories">Categories</a>
+                <a href="#jobs">Find Jobs</a>
+
+                {% if user.is_authenticated %}
+                    {% if user.is_superuser or user.is_staff %}
+                        <a href="/admin/">Admin Panel</a>
+                    {% else %}
+                        {% if user.profile.role == 'candidate' %}
+                            <a href="{% url 'candidate_dashboard' %}">
+                                My Dashboard
+                            </a>
+                        {% elif user.profile.role == 'recruiter' %}
+                            <a href="{% url 'recruiter_dashboard' %}">
+                                My Dashboard
+                            </a>
+                        {% endif %}
+                    {% endif %}
+
+                    <form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn">Logout</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}">Login</a>
+                    <a href="{% url 'register' %}" class="primary">
+                        Register
+                    </a>
+                {% endif %}
+            </div>
+        </nav>
+    </div>
+</header>
+
+{% if messages %}
+<div class="container messages">
+    {% for message in messages %}
+        <div class="message">{{ message }}</div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<main>
+
+    <!-- Hero Section -->
+
+    <section class="hero">
+        <div class="container">
+            <span class="eyebrow">YOUR CAREER STARTS HERE</span>
+
+            <h1>
+                Find a job that matches your
+                <span>future</span>
+            </h1>
+
+            <p>
+                Discover exciting job opportunities, explore different careers,
+                and take the next step towards your professional future.
+                </p>
+                <form class="search-form"
+                  action="{% url 'search_jobs' %}"
+                  method="get">
+
+                <div class="search-input">
+                    <span>🔎</span>
+                    <input
+                        type="search"
+                        name="q"
+                        value="{{ request.GET.q|default:'' }}"
+                        placeholder="Job title, company or skill"
+                        aria-label="Search jobs"
+                    >
+                </div>
+
+                <div class="search-input">
+                    <span>📍</span>
+                    <input
+                        type="text"
+                        name="location"
+                        value="{{ request.GET.location|default:'' }}"
+                        placeholder="City or location"
+                        aria-label="Job location"
+                    >
+                </div>
+
+                <button type="submit" class="btn">
+                    Search Jobs →
+                </button>
+            </form>
+
+            <div class="stats">
+                <div class="stat">
+                    <strong>{{ jobs|length }}</strong>
+                    <span>Jobs Displayed</span>
+                </div>
+
+                <div class="stat">
+                    <strong>Free</strong>
+                    <span>Job Search</span>
+                </div>
+
+                <div class="stat">
+                    <strong>24/7</strong>
+                    <span>Explore Opportunities</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+
+    <section class="content-section" id="categories">
+        <div class="container">
+            <div class="section-heading">
+                <h2>Explore Job Categories</h2>
+                <p>
+                    Discover opportunities that match your interests and skills.
+                </p>
+            </div>
+
+            <div class="category-grid">
+                <a href="{% url 'search_jobs' %}?q=IT" class="category">
+                    <div class="category-icon">💻</div>
+                    <h3>IT &amp; Software</h3>
+                    <p>Development, testing and technology</p>
+                </a>
+
+                <a href="{% url 'search_jobs' %}?q=Marketing" class="category">
+                    <div class="category-icon">📊</div>
+                    <h3>Sales &amp; Marketing</h3>
+                    <p>Sales, marketing and business growth</p>
+                </a>
+
+                <a href="{% url 'search_jobs' %}?q=Finance" class="category">
+                    <div class="category-icon">🏦</div>
+                    <h3>Banking &amp; Finance</h3>
+                    <p>Banking, finance and accounting</p>
+                </a>
+
+                <a href="{% url 'search_jobs' %}?q=HR" class="category">
+                    <div class="category-icon">👥</div>
+                    <h3>HR &amp; Administration</h3>
+                    <p>Recruitment and office management</p>
+                </a>
+
+                <a href="{% url 'search_jobs' %}?q=Education" class="category">
+                    <div class="category-icon">🎓</div>
+                    <h3>Education</h3>
+                    <p>Teaching and academic careers</p>
+                </a>
+
+                <a href="{% url 'search_jobs' %}?q=Support" class="category">
+                    <div class="category-icon">🎧</div>
+                    <h3>Customer Support</h3>
+                    <p>Customer service and assistance</p>
+                </a>
+
+                <a href="{% url 'search_jobs' %}?q=Business" class="category">
+                    <div class="category-icon">🏢</div>
+                    <h3>Business &amp; Operations</h3>
+                    <p>Business operations and management</p>
+                </a>
+
+                <a href="{% url 'search_jobs' %}?q=Remote" class="category">
+                    <div class="category-icon">🏠</div>
+                    <h3>Remote Jobs</h3>
+                    <p>Explore remote-work opportunities</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Latest Jobs Section -->
+
+    <section class="content-section jobs-section" id="jobs">
+        <div class="container">
+
+            {% if error_message %}
+                <div class="empty-state" style="margin-bottom: 25px;">
+                    <h3>Unable to load live jobs</h3>
+                    <p>{{ error_message }}</p>
+                </div>
+            {% endif %}
+
+            <div class="jobs-intro">
+                <div>
+                    <h3>Find Your Next Opportunity</h3>
+                    <p>Explore jobs and take the next step in your career.</p>
+                </div>
+
+                <a href="{% url 'search_jobs' %}" class="btn btn-outline">
+                    Browse All Jobs →
+                </a>
+            </div>
+
+            <div class="section-heading">
+                <h2>Latest Job Opportunities</h2>
+                <p>Explore the job listings currently available on our portal.</p>
+            </div>
+
+            <div class="job-grid">
+                {% for job in jobs %}
+                    <article class="job-card">
+
+                        <span class="job-tag">
+                            {{ job.job_type|default:"Opportunity" }}
+                        </span>
+
+                        <h3>{{ job.title }}</h3>
+
+                        <p class="company">
+                            {{ job.company|default:"Company not specified" }}
+                        </p>
+
+                        <p class="job-info">
+                            📍 {{ job.location|default:"Location not specified" }}
+                        </p>
+
+                        {% if job.salary %}
+                            <p class="job-info">
+                                💰 {{ job.salary }}
+                            </p>
+                        {% endif %}
+
+                        <p class="description">
+                            {{ job.description|default:"Explore this opportunity to learn more about the role."|truncatechars:180 }}
+                        </p>
+
+                        {% if job.skills %}
+                            <p class="skills">
+                                <strong>Skills:</strong> {{ job.skills }}
+                            </p>
+                        {% endif %}
+
+                        <div class="job-actions">
+                            <span class="posted">
+                                {% if job.posted_at %}
+                                    Posted {{ job.posted_at|date:"d M Y" }}
+                                {% else %}
+                                    Recently listed
+                                {% endif %}
+                            </span>
+
+                            {% if job.apply_url %}
+                                <a
+                                    class="apply-btn"
+                                    href="{{ job.apply_url }}"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    Apply Now ↗️
+                                </a>
+                            {% else %}
+                                <span class="posted">
+                                    Apply link unavailable
+                                </span>
+                            {% endif %}
+                        </div>
+                    </article>
+
+                {% empty %}
+                    <div class="empty-state">
+                        <h3>No jobs found right now</h3>
+                        <p>
+                            Try a different keyword or location, or check back
+                            later for new opportunities.
+                        </p>
+                        <p style="margin-top: 18px;">
+                            <a href="{% url 'search_jobs' %}" class="btn">
+                                Search Jobs
+                            </a>
+                        </p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Career Call to Action -->
+
+    <section class="content-section">
+        <div class="container">
+            <div class="career-banner">
+                <div>
+                    <h2>Your Next Opportunity Is Waiting!</h2>
+                    <p>
+                        Create your account and start exploring career
+                        opportunities today.
+                    </p>
+                </div>
+
+                {% if user.is_authenticated %}
+                    {% if user.is_superuser or user.is_staff %}
+                        <a href="/admin/" class="btn">Admin Panel →</a>
+                    {% else %}
+                        {% if user.profile.role == 'candidate' %}
+                            <a href="{% url 'candidate_dashboard' %}"
+                               class="btn">
+                                My Dashboard →
+                            </a>
+                        {% elif user.profile.role == 'recruiter' %}
+                            <a href="{% url 'recruiter_dashboard' %}"
+                               class="btn">
+                                My Dashboard →
+                            </a>
+                        {% else %}
+                            <a href="{% url 'search_jobs' %}" class="btn">
+                                Explore Jobs →
+                            </a>
+                        {% endif %}
+                    {% endif %}
+                {% else %}
+                    <a href="{% url 'register' %}" class="btn">
+                        Get Started →
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- Professional Footer -->
+
+<footer>
+    <div class="container">
+
+        <div class="footer-content">
+
+            <div class="footer-column">
+                <a href="{% url 'home' %}" class="logo"
+                   style="color: white;">
+                    <span class="logo-icon">J</span>
+                    Job Portal
+                </a>
+
+                <p>
+                    Connecting job seekers with career opportunities.
+                    Discover jobs, build your career and move towards
+                    a brighter professional future.
+                </p>
+            </div>
+
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+
+                <div class="footer-links">
+                    <a href="{% url 'home' %}">Home</a>
+                    <a href="#categories">Job Categories</a>
+                    <a href="#jobs">Latest Jobs</a>
+
+                    {% if user.is_authenticated %}
+                        {% if user.is_superuser or user.is_staff %}
+                            <a href="/admin/">Admin Panel</a>
+                        {% else %}
+                            {% if user.profile.role == 'candidate' %}
+                                <a href="{% url 'candidate_dashboard' %}">
+                                    Candidate Dashboard
+                                </a>
+                            {% elif user.profile.role == 'recruiter' %}
+                                <a href="{% url 'recruiter_dashboard' %}">
+                                    Recruiter Dashboard
+                                </a>
+                            {% endif %}
+                        {% endif %}
+                    {% else %}
+                        <a href="{% url 'login' %}">Login</a>
+                        <a href="{% url 'register' %}">Create Account</a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="footer-column footer-contact">
+                <h3>Contact Us</h3>
+
+                <p>
+                    <strong>📧 Email Address</strong>
+                    <a href="mailto:anshgupta9723@gmail.com">
+                        anshgupta9723@gmail.com
+                    </a>
+                </p>
+
+                <p>
+                    <strong>📞 Phone Number</strong>
+                    <a href="tel:+917370489591">
+                        +91 73704 89591
+                    </a>
+                </p>
+
+                <p>
+                    Feel free to contact us for job portal-related queries.
+                </p>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p>
+                © {% now "Y" %} Job Portal. All rights reserved.
+            </p>
+
+            <p>
+                Find opportunities. Build your future.
+            </p>
+        </div>
+
+    </div>
+</footer>
+
+</body>
+</html>

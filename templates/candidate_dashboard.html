@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Candidate Dashboard | Job Portal</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --background: #f1f5f9;
+            --text: #1e293b;
+            --muted: #64748b;
+            --white: #ffffff;
+            --border: #e2e8f0;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(120deg, #1d4ed8, #3730a3);
+            color: white;
+            padding: 17px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            box-shadow: 0 3px 12px rgba(30, 64, 175, 0.15);
+        }
+
+        header h2 {
+            margin: 0;
+            font-size: 24px;
+            letter-spacing: 0.3px;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .logout-form {
+            display: inline;
+            margin: 0;
+        }
+
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.12);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            padding: 8px 14px;
+            border-radius: 7px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.22);
+        }
+
+        /* Main container */
+        .container {
+            width: 90%;
+            max-width: 1150px;
+            margin: 32px auto;
+        }
+
+        /* Welcome banner */
+        .welcome {
+            background: linear-gradient(120deg, #ffffff, #eaf2ff);
+            padding: 34px;
+            border: 1px solid #dbeafe;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(15, 23, 42, 0.04);
+        }
+
+        .welcome-label {
+            display: inline-block;
+            background: #dbeafe;
+            color: #1d4ed8;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .welcome h1 {
+            margin: 14px 0 10px;
+            font-size: clamp(27px, 4vw, 35px);
+            line-height: 1.3;
+            color: #172554;
+        }
+
+        .welcome h1 span {
+            color: var(--primary);
+            overflow-wrap: anywhere;
+        }
+
+        .welcome p {
+            color: var(--muted);
+            margin: 7px 0;
+        }
+
+        .welcome .description {
+            max-width: 650px;
+            margin-bottom: 18px;
+        }
+
+        /* Section heading */
+        .section-heading {
+            margin: 32px 0 18px;
+        }
+
+        .section-heading h2 {
+            margin: 0;
+            font-size: 24px;
+            color: #172554;
+        }
+
+        .section-heading p {
+            margin: 5px 0 0;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        /* Cards layout */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            background: white;
+            padding: 24px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.035);
+            transition: transform 0.2s ease,
+                        box-shadow 0.2s ease,
+                        border-color 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: #bfdbfe;
+            box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            font-size: 23px;
+            margin-bottom: 15px;
+        }
+
+        .blue-icon {
+            background: #dbeafe;
+        }
+
+        .green-icon {
+            background: #dcfce7;
+        }
+
+        .purple-icon {
+            background: #ede9fe;
+        }
+
+        .orange-icon {
+            background: #ffedd5;
+        }
+
+        .cyan-icon {
+            background: #cffafe;
+        }
+
+        .card h3 {
+            margin: 0 0 8px;
+            color: #1e40af;
+            font-size: 18px;
+        }
+
+        .card p {
+            margin: 0 0 18px;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            margin-top: auto;
+            padding: 10px 15px;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border: 1px solid var(--primary);
+            border-radius: 7px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background 0.2s ease,
+                        transform 0.2s ease;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .feature-label {
+            margin-bottom: 12px;
+            padding: 4px 9px;
+            border-radius: 20px;
+            background: #eef2ff;
+            color: #4338ca;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 22px 15px;
+            margin-top: 35px;
+            background: white;
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        /* Responsive design */
+        @media (max-width: 900px) {
+            .cards {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            header {
+                padding: 17px 5%;
+            }
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 16px 5%;
+            }
+
+            header h2 {
+                font-size: 21px;
+            }
+
+            nav {
+                gap: 16px;
+                flex-wrap: wrap;
+            }
+
+            .container {
+                width: 92%;
+                margin: 22px auto;
+            }
+
+            .welcome {
+                padding: 24px 20px;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .card {
+                padding: 21px;
+            }
+
+            .section-heading h2 {
+                font-size: 21px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <h2>💼 Job Portal</h2>
+
+        <nav>
+            <a href="{% url 'home' %}">Home</a>
+
+            <form class="logout-form"
+                  method="POST"
+                  action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button class="logout-btn" type="submit">
+                    Logout ↗️
+                </button>
+            </form>
+        </nav>
+    </header>
+
+    <!-- Main Dashboard -->
+    <main class="container">
+
+        <!-- Welcome Section -->
+        <section class="welcome">
+            <span class="welcome-label">Candidate Dashboard</span>
+
+            <h1>
+                Welcome, <span>{{ request.user.username }}</span>!
+            </h1>
+
+            <p>You are logged in as a Candidate.</p>
+
+            <p class="description">
+                Discover new career opportunities, manage your
+                applications, build your professional resume, and
+                find jobs that match your skills.
+            </p>
+
+            <a class="btn" href="{% url 'search_jobs' %}">
+                Explore Jobs →
+            </a>
+        </section>
+
+        <!-- Dashboard Feature Cards -->
+        <section aria-labelledby="dashboard-title">
+
+            <div class="section-heading">
+                <h2 id="dashboard-title">Your Career Workspace</h2>
+                <p>Manage your job search and career profile from one place.</p>
+            </div>
+
+            <div class="cards">
+
+                <!-- Find Jobs -->
+                <article class="card">
+                    <div class="card-icon blue-icon"
+                         aria-hidden="true">🔎</div>
+
+                    <h3>Find Jobs</h3>
+
+                    <p>
+                        Explore available opportunities and discover
+                        jobs that align with your skills and interests.
+                    </p>
+
+                    <a class="btn" href="{% url 'search_jobs' %}">
+                        Browse Jobs →
+                    </a>
+                </article>
+
+                <!-- My Applications -->
+                <article class="card">
+                    <div class="card-icon green-icon"
+                         aria-hidden="true">📋</div>
+
+                    <h3>My Applications</h3>
+
+                    <p>
+                        View your saved jobs and keep track of your
+                        application status in one convenient place.
+                    </p>
+
+                    <a class="btn" href="{% url 'my_applications' %}">
+                        My Applications →
+                    </a>
+                </article>
+
+                <!-- Resume Builder -->
+                <article class="card">
+                    <div class="card-icon purple-icon"
+                         aria-hidden="true">📄</div>
+
+                    <h3>Resume Builder</h3>
+
+                    <p>
+                        Create and update your resume with your
+                        education, skills, experience, and projects.
+                    </p>
+
+                    <a class="btn" href="{% url 'resume_builder' %}">
+                        Create Resume →
+                    </a>
+                </article>
+
+                <!-- AI Resume Analyzer -->
+                <article class="card">
+                    <span class="feature-label">RESUME TOOLS</span>
+
+                    <div class="card-icon orange-icon"
+                         aria-hidden="true">📊</div>
+
+                    <h3>AI Resume Analyzer</h3>
+
+                    <p>
+                        Check resume completeness, identify missing
+                        sections, and get suggestions for improvement.
+                    </p>
+
+                    <a class="btn" href="{% url 'ai_resume_analyzer' %}">
+                        Analyze Resume →
+                    </a>
+                </article>
+
+                <!-- Resume Job Match Score -->
+                <article class="card">
+                    <span class="feature-label">SKILL ANALYSIS</span>
+
+                    <div class="card-icon cyan-icon"
+                         aria-hidden="true">🎯</div>
+
+                    <h3>Resume–Job Match Score</h3>
+
+                    <p>
+                        Compare your resume with available job
+                        requirements and identify matching skills.
+                    </p>
+
+                    <a class="btn" href="{% url 'resume_job_match' %}">
+                        Check Match Score →
+                    </a>
+                </article>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>
+            &copy; {% now "Y" %} Job Portal. All rights reserved.
+        </p>
+    </footer>
+
+</body>
+</html>

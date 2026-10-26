@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#1d4ed8">
+
+    <title>Post a Job | Job Portal</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --text: #172033;
+            --muted: #64748b;
+            --border: #e2e8f0;
+            --background: #f4f7fc;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        /* Header */
+        header {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03);
+        }
+
+        .header-inner {
+            width: min(1150px, 92%);
+            min-height: 76px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            padding: 14px 0;
+        }
+
+        .brand {
+            color: var(--primary);
+            font-size: 25px;
+            font-weight: 800;
+            letter-spacing: -0.6px;
+        }
+
+        .brand span {
+            color: var(--text);
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: #475569;
+            font-size: 14px;
+            font-weight: 700;
+            padding: 10px 13px;
+            border-radius: 7px;
+            transition: 0.2s ease;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+            background: #eff6ff;
+        }
+
+        nav a.active {
+            color: var(--primary);
+            background: #eff6ff;
+        }
+
+        /* Main content */
+        main {
+            width: min(900px, 92%);
+            margin: 42px auto;
+        }
+
+        .page-heading {
+            margin-bottom: 24px;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            color: var(--primary);
+            background: #eaf1ff;
+            padding: 5px 12px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 0.6px;
+            margin-bottom: 12px;
+        }
+
+        .page-heading h1 {
+            font-size: clamp(27px, 4vw, 36px);
+            line-height: 1.25;
+            letter-spacing: -0.8px;
+            margin-bottom: 10px;
+        }
+
+        .page-heading p {
+            color: var(--muted);
+            font-size: 15px;
+        }
+
+        /* Form card */
+        .form-card {
+            background: var(--white);
+            padding: 32px;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            box-shadow: 0 10px 35px rgba(15, 23, 42, 0.05);
+        }
+
+        .form-intro {
+            padding-bottom: 22px;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #edf0f5;
+        }
+
+        .form-intro h2 {
+            font-size: 19px;
+            margin-bottom: 5px;
+        }
+
+        .form-intro p {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .required-note {
+            color: var(--muted);
+            font-size: 12px;
+            margin-bottom: 22px;
+        }
+
+        .required-note span {
+            color: #dc2626;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 21px 20px;
+        }
+
+        .field {
+            min-width: 0;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #334155;
+        }
+
+        .required {
+            color: #dc2626;
+        }
+
+        input,
+        select,
+        textarea {
+            display: block;
+            width: 100%;
+            min-width: 0;
+            padding: 13px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            background: #fff;
+            color: var(--text);
+            font: inherit;
+            font-size: 14px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: #94a3b8;
+        }
+
+        input:hover,
+        select:hover,
+        textarea:hover {
+            border-color: #94a3b8;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+        }
+
+        select {
+            cursor: pointer;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 150px;
+            line-height: 1.7;
+        }
+
+        .help-text {
+            display: block;
+            margin-top: 7px;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        /* Django messages */
+        .messages {
+            margin-bottom: 20px;
+        }
+
+        .message {
+            padding: 13px 15px;
+            margin-bottom: 10px;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            background: #eff6ff;
+            color: #1e40af;
+            font-size: 14px;
+            overflow-wrap: anywhere;
+        }
+
+        /* Form actions */
+        .form-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            border-top: 1px solid #edf0f5;
+            margin-top: 28px;
+            padding-top: 23px;
+        }
+
+        .footer-note {
+            color: var(--muted);
+            font-size: 12px;
+            max-width: 310px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 11px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 19px;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            background: var(--primary);
+            color: white;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn:focus-visible {
+            outline: 3px solid #93c5fd;
+            outline-offset: 3px;
+        }
+
+        .secondary {
+            background: white;
+            color: #475569;
+            border-color: #cbd5e1;
+        }
+
+        .secondary:hover {
+            background: #f8fafc;
+            color: var(--text);
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 55px;
+            background: #111c32;
+            color: white;
+            padding: 24px 4%;
+            text-align: center;
+        }
+
+        footer p {
+            color: #cbd5e1;
+            font-size: 13px;
+        }
+
+        /* Responsive */
+        @media (max-width: 650px) {
+            .header-inner {
+                padding: 16px 0;
+            }
+
+            .brand {
+                font-size: 23px;
+            }
+
+            nav {
+                width: 100%;
+                gap: 5px;
+            }
+
+            nav a {
+                padding: 8px 10px;
+                font-size: 13px;
+            }
+
+            main {
+                margin: 28px auto;
+            }
+
+            .form-card {
+                padding: 21px 17px;
+                border-radius: 12px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 18px;
+            }
+
+            .full-width {
+                grid-column: auto;
+            }
+
+            .form-footer {
+                align-items: stretch;
+            }
+
+            .footer-note {
+                max-width: none;
+            }
+
+            .actions {
+                width: 100%;
+            }
+
+            .actions .btn {
+                flex: 1;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                transition: none !important;
+                scroll-behavior: auto !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="header-inner">
+        <a href="{% url 'home' %}" class="brand">
+            Job<span>Portal</span>
+        </a>
+
+        <nav aria-label="Main navigation">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'recruiter_dashboard' %}">Dashboard</a>
+            <a href="{% url 'manage_jobs' %}" class="active">Manage Jobs</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <div class="page-heading">
+        <span class="eyebrow">RECRUITER WORKSPACE</span>
+        <h1>Post a New Job</h1>
+        <p>
+            Share your vacancy details and connect with candidates
+            who have the skills your company needs.
+        </p>
+    </div>
+
+    <section class="form-card">
+        <div class="form-intro">
+            <h2>Job Information</h2>
+            <p>Fill in the details below to publish your job opportunity.</p>
+        </div>
+
+        {% if messages %}
+            <div class="messages" aria-live="polite">
+                {% for message in messages %}
+                    <div class="message">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <p class="required-note">
+            Fields marked with <span>*</span> are required.
+        </p>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="form-grid">
+                <div class="field">
+                    <label for="title">
+                        Job Title <span class="required">*</span>
+                    </label>
+                    <input
+                        id="title"
+                        type="text"
+                        name="title"
+                        placeholder="e.g. Python Developer"
+                        maxlength="200"
+                        autocomplete="off"
+                        required
+                    >
+                </div>
+
+                <div class="field">
+                    <label for="company">
+                        Company Name <span class="required">*</span>
+                    </label>
+                    <input
+                        id="company"
+                        type="text"
+                        name="company"
+                        placeholder="Enter company name"
+                        maxlength="200"
+                        required
+                    >
+                </div>
+
+                <div class="field">
+                    <label for="location">
+                        Location <span class="required">*</span>
+                    </label>
+                    <input
+                        id="location"
+                        type="text"
+                        name="location"
+                        placeholder="e.g. Lucknow, Uttar Pradesh"
+                        maxlength="150"
+                        required
+                    >
+                </div>
+
+                <div class="field">
+                    <label for="salary">Salary / Compensation</label>
+                    <input
+                        id="salary"
+                        type="text"
+                        name="salary"
+                        placeholder="e.g. ₹25,000/month"
+                        maxlength="100"
+                    >
+                    <small class="help-text">
+                        You can mention a monthly or annual salary range.
+                    </small>
+                </div>
+
+                <div class="field">
+                    <label for="job_type">Employment Type</label>
+                    <select id="job_type" name="job_type">
+                        <option value="Full Time">Full Time</option>
+                        <option value="Part Time">Part Time</option>
+                        <option value="Internship">Internship</option>
+                        <option value="Contract">Contract</option>
+                        <option value="Remote">Remote</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="skills">Required Skills</label>
+                    <input
+                        id="skills"
+                        type="text"
+                        name="skills"
+                        placeholder="Python, Django, SQL"
+                        maxlength="300"
+                    >
+                    <small class="help-text">
+                        Separate multiple skills with commas.
+                    </small>
+                </div>
+
+                <div class="field full-width">
+                    <label for="description">
+                        Job Description <span class="required">*</span>
+                    </label>
+                    <textarea
+                        id="description"
+                        name="description"
+                        rows="7"
+                        placeholder="Describe responsibilities, qualifications, experience and job requirements..."
+                        required
+                    ></textarea>
+                </div>
+
+                <div class="field full-width">
+                    <label for="apply_url">Application Link</label>
+                    <input
+                        id="apply_url"
+                        type="url"
+                        name="apply_url"
+                        maxlength="1000"
+                        placeholder="https://company.com/careers/apply"
+                    >
+                    <small class="help-text">
+                        Enter the official application page URL.
+                        Candidates can use this link to apply.
+                    </small>
+                </div>
+            </div>
+
+            <div class="form-footer">
+                <p class="footer-note">
+                    Please review the job details and application link
+                    before publishing.
+                </p>
+
+                <div class="actions">
+                    <a href="{% url 'manage_jobs' %}"
+                       class="btn secondary">
+                        Cancel
+                    </a>
+
+                    <button type="submit" class="btn">
+                        Publish Job &#8594;
+                    </button>
+                </div>
+            </div>
+        </form>
+    </section>
+</main>
+
+<footer>
+    <p>
+        &copy; {% now "Y" %} Job Portal. Connecting talent with opportunity.
+    </p>
+</footer>
+
+</body>
+</html>

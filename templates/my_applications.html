@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Applications | Job Portal</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #1e40af, #1d4ed8);
+            color: white;
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 18px;
+            flex-wrap: wrap;
+            box-shadow: 0 3px 12px rgba(15, 23, 42, 0.12);
+        }
+
+        header h2 {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 9px 12px;
+            border-radius: 7px;
+            transition: background 0.25s ease;
+        }
+
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* Logout Button */
+        .logout-form {
+            display: inline-flex;
+            margin: 0;
+        }
+
+        .logout-btn {
+            background: white;
+            color: #1d4ed8;
+            border: 1px solid white;
+            border-radius: 7px;
+            padding: 9px 16px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .logout-btn:hover {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .logout-btn:focus-visible,
+        .btn:focus-visible,
+        nav a:focus-visible {
+            outline: 3px solid #93c5fd;
+            outline-offset: 3px;
+        }
+
+        /* Main Container */
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 38px auto;
+            min-height: 60vh;
+        }
+
+        /* Page Heading */
+        .page-heading {
+            margin-bottom: 28px;
+        }
+
+        .page-heading h1 {
+            font-size: 32px;
+            line-height: 1.25;
+            margin-bottom: 10px;
+            color: #0f172a;
+        }
+
+        .page-heading p {
+            max-width: 780px;
+            color: #64748b;
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        /* Django Messages */
+        .messages {
+            margin-bottom: 22px;
+        }
+
+        .message {
+            padding: 13px 16px;
+            border-radius: 8px;
+            background: #dbeafe;
+            color: #1e40af;
+            border: 1px solid #bfdbfe;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        /* Job Cards */
+        .job-card {
+            background: #ffffff;
+            padding: 26px;
+            margin-bottom: 20px;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            box-shadow: 0 5px 18px rgba(15, 23, 42, 0.045);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .job-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 9px 24px rgba(15, 23, 42, 0.08);
+        }
+
+        .job-card h2 {
+            color: #1d4ed8;
+            font-size: 23px;
+            line-height: 1.4;
+            margin-bottom: 9px;
+            overflow-wrap: anywhere;
+        }
+
+        .company {
+            font-weight: 700;
+            color: #334155;
+            margin-bottom: 5px;
+        }
+
+        .location {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 18px;
+        }
+
+        /* Job Details */
+        .details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 22px;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #eff6ff;
+            color: #1d4ed8;
+            border: 1px solid #dbeafe;
+            padding: 7px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        /* Buttons */
+        .actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .btn {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            padding: 11px 17px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            border: 1px solid transparent;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.25s ease;
+        }
+
+        .btn-primary {
+            background: #1d4ed8;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1e40af;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: #f8fafc;
+            color: #334155;
+            border-color: #cbd5e1;
+        }
+
+        .btn-secondary:hover {
+            background: #e2e8f0;
+        }
+
+        /* Empty State */
+        .empty-state {
+            background: white;
+            border: 1px dashed #cbd5e1;
+            border-radius: 14px;
+            padding: 55px 24px;
+            text-align: center;
+            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.03);
+        }
+
+        .empty-icon {
+            font-size: 42px;
+            margin-bottom: 12px;
+        }
+
+        .empty-state h2 {
+            font-size: 23px;
+            color: #0f172a;
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+            max-width: 520px;
+            margin: 0 auto 22px;
+            color: #64748b;
+            line-height: 1.8;
+            font-size: 15px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 24px 15px;
+            margin-top: 35px;
+            color: #64748b;
+            font-size: 14px;
+            border-top: 1px solid #e2e8f0;
+            background: #ffffff;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            header {
+                padding: 17px 5%;
+                align-items: flex-start;
+            }
+
+            header h2 {
+                font-size: 22px;
+            }
+
+            nav {
+                gap: 6px;
+                width: 100%;
+            }
+
+            nav a {
+                padding: 8px 9px;
+                font-size: 13px;
+            }
+
+            .logout-btn {
+                padding: 8px 12px;
+                font-size: 13px;
+            }
+
+            .container {
+                width: 92%;
+                margin: 27px auto;
+            }
+
+            .page-heading h1 {
+                font-size: 27px;
+            }
+
+            .page-heading p {
+                font-size: 14px;
+            }
+
+            .job-card {
+                padding: 19px;
+                border-radius: 11px;
+            }
+
+            .job-card h2 {
+                font-size: 20px;
+            }
+
+            .details {
+                gap: 8px;
+            }
+
+            .actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .actions .btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .empty-state {
+                padding: 38px 18px;
+            }
+
+            .empty-state h2 {
+                font-size: 21px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Header -->
+<header>
+    <h2>Job Portal</h2>
+
+    <nav>
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'search_jobs' %}">Search Jobs</a>
+        <a href="{% url 'candidate_dashboard' %}">Dashboard</a>
+
+        <form method="POST"
+              action="{% url 'logout' %}"
+              class="logout-form">
+            {% csrf_token %}
+            <button type="submit" class="logout-btn">
+                Logout
+            </button>
+        </form>
+    </nav>
+</header>
+
+<!-- Main Content -->
+<main class="container">
+
+    <!-- Page Heading -->
+    <section class="page-heading">
+        <h1>My Applications</h1>
+        <p>
+            Manage your saved job opportunities in one place.
+            Continue to the original job page to follow the employer's
+            application instructions and track your progress.
+        </p>
+    </section>
+
+    <!-- Django Messages -->
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="message">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Saved Job Applications -->
+    {% for application in applications %}
+        <article class="job-card">
+
+            <h2>{{ application.job_title }}</h2>
+
+            <p class="company">
+                {{ application.company }}
+            </p>
+
+            <p class="location">
+                📍 {{ application.location|default:"Location not specified" }}
+            </p>
+
+            <div class="details">
+                <span class="tag">
+                    Status: {{ application.get_status_display }}
+                </span>
+
+                <span class="tag">
+                    Saved: {{ application.created_at|date:"d M Y" }}
+                </span>
+            </div>
+
+            <div class="actions">
+                <a
+                    class="btn btn-primary"
+                    href="{{ application.job_url }}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Continue to Job ↗️
+                </a>
+
+                <a
+                    class="btn btn-secondary"
+                    href="{% url 'search_jobs' %}"
+                >
+                    Search More Jobs
+                </a>
+            </div>
+
+        </article>
+
+    {% empty %}
+
+        <!-- Empty State -->
+        <section class="empty-state">
+            <div class="empty-icon">📋</div>
+
+            <h2>No Saved Jobs Yet</h2>
+
+            <p>
+                You haven't saved any jobs yet. Explore available
+                opportunities and save jobs that interest you.
+                Your saved jobs will appear here.
+            </p>
+
+            <a
+                href="{% url 'search_jobs' %}"
+                class="btn btn-primary"
+            >
+                Explore Jobs
+            </a>
+        </section>
+
+    {% endfor %}
+
+</main>
+
+<!-- Footer -->
+<footer>
+    <p>
+        &copy; {% now "Y" %} Job Portal. All rights reserved.
+    </p>
+</footer>
+
+</body>
+</html>

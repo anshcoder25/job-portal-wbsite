@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Resume Analyzer | Job Portal</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fc;
+            color: #1e293b;
+        }
+
+        header {
+            background: #1d4ed8;
+            color: white;
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        header h2 {
+            font-size: 23px;
+        }
+
+        nav {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 35px auto;
+        }
+
+        .page-heading {
+            margin-bottom: 25px;
+        }
+
+        .page-heading h1 {
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .page-heading p {
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        .messages {
+            margin-bottom: 20px;
+        }
+
+        .message {
+            padding: 12px 15px;
+            border-radius: 7px;
+            background: #dbeafe;
+            color: #1e40af;
+            margin-bottom: 10px;
+        }
+
+        .card {
+            background: white;
+            padding: 24px;
+            margin-bottom: 18px;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+        }
+
+        .card h2 {
+            color: #1d4ed8;
+            font-size: 21px;
+            margin-bottom: 15px;
+        }
+
+        .intro {
+            line-height: 1.7;
+            color: #64748b;
+        }
+
+        .score-section {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .score-circle {
+            width: 125px;
+            height: 125px;
+            border: 9px solid #dbeafe;
+            border-top-color: #1d4ed8;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .score-number {
+            font-size: 30px;
+            font-weight: bold;
+            color: #1d4ed8;
+        }
+
+        .score-label {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .score-info {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .score-info p {
+            color: #64748b;
+            line-height: 1.7;
+            margin-top: 8px;
+        }
+
+        .progress-track {
+            height: 12px;
+            width: 100%;
+            background: #e2e8f0;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #1d4ed8;
+            border-radius: 20px;
+        }
+
+        .section-list {
+            list-style: none;
+        }
+
+        .section-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid #e2e8f0;
+            line-height: 1.5;
+        }
+
+        .section-list li:last-child {
+            border-bottom: none;
+        }
+
+        .complete {
+            color: #15803d;
+            font-weight: bold;
+        }
+
+        .missing {
+            color: #b45309;
+            font-weight: bold;
+        }
+
+        .suggestion-list {
+            padding-left: 22px;
+        }
+
+        .suggestion-list li {
+            padding: 7px 0;
+            line-height: 1.6;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #eff6ff;
+            color: #1d4ed8;
+            padding: 7px 11px;
+            border-radius: 20px;
+            font-size: 13px;
+            margin: 4px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 11px 16px;
+            border-radius: 7px;
+            text-decoration: none;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: #1d4ed8;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1e40af;
+        }
+
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #1e293b;
+        }
+
+        .empty-state {
+            background: white;
+            border: 1px dashed #cbd5e1;
+            border-radius: 12px;
+            padding: 45px 20px;
+            text-align: center;
+        }
+
+        .empty-state h2 {
+            margin-bottom: 12px;
+        }
+
+        .empty-state p {
+            color: #64748b;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px 15px;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 16px 5%;
+            }
+
+            .container {
+                width: 92%;
+                margin: 25px auto;
+            }
+
+            .page-heading h1 {
+                font-size: 25px;
+            }
+
+            .card {
+                padding: 18px;
+            }
+
+            .score-section {
+                justify-content: center;
+            }
+
+            .score-info {
+                min-width: 100%;
+            }
+
+            .actions .btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h2>Job Portal</h2>
+
+    <nav>
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'search_jobs' %}">Search Jobs</a>
+        <a href="{% url 'candidate_dashboard' %}">Dashboard</a>
+        <a href="{% url 'resume_builder' %}">My Resume</a>
+    </nav>
+</header>
+
+<main class="container">
+
+    <section class="page-heading">
+        <h1>AI Resume Analyzer</h1>
+        <p>
+            Apne resume ke sections check karein, missing information
+            identify karein aur apna resume improve karne ke suggestions paayein.
+        </p>
+    </section>
+
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="message">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% if resume %}
+
+        <section class="card">
+            <h2>Resume Overview</h2>
+
+            <p><strong>Name:</strong> {{ resume.full_name }}</p>
+            <p style="margin-top: 8px;">
+                <strong>Email:</strong> {{ resume.email }}
+            </p>
+
+            <p class="intro" style="margin-top: 15px;">
+                Neeche diya gaya score aapke resume ke filled sections
+                par based hai. Yeh hiring success ya resume quality ki guarantee nahi hai.
+            </p>
+        </section>
+
+        <section class="card">
+            <h2>Resume Completeness Score</h2>
+
+            <div class="score-section">
+                <div class="score-circle">
+                    <span class="score-number">{{ score }}%</span>
+                    <span class="score-label">Complete</span>
+                </div>
+
+                <div class="score-info">
+                    <h3>Section Completion</h3>
+                    <p>
+                        {{ completed_sections|length }}
+                        out of
+                        {{ total_sections}}
+                        sections filled hain.
+                    </p>
+
+                    <div class="progress-track">
+                        <div
+                            class="progress-fill"
+                            style="width: {{ score }}%;"
+                        ></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>Completed Sections</h2>
+
+            {% if completed_sections %}
+                <ul class="section-list">
+                    {% for section in completed_sections %}
+                        <li>
+                            <span class="complete">✓</span>
+                            {{ section }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="intro">
+                    Abhi koi resume section complete nahi hai.
+                </p>
+            {% endif %}
+        </section>
+
+        <section class="card">
+            <h2>Missing Sections</h2>
+
+            {% if missing_sections %}
+                <ul class="section-list">
+                    {% for section in missing_sections %}
+                        <li>
+                            <span class="missing">! </span>
+                            {{ section }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="complete">
+                    ✓ Aapke saare checked sections filled hain.
+                </p>
+            {% endif %}
+        </section>
+
+        <section class="card">
+            <h2>Resume Improvement Suggestions</h2>
+
+            {% if suggestions %}
+                <ul class="suggestion-list">
+                    {% for suggestion in suggestions %}
+                        <li>{{ suggestion }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="intro">
+                    Filhaal koi additional suggestion nahi hai.
+                </p>
+            {% endif %}
+        </section>
+
+        <section class="card">
+            <h2>Next Step</h2>
+
+            <p class="intro">
+                Resume update karne ke baad kisi job ke saath apni skills
+                compare karein aur relevant keywords identify karein.
+            </p>
+
+            <div class="actions">
+                <a
+                    href="{% url 'resume_builder' %}"
+                    class="btn btn-primary"
+                >
+                    Update My Resume
+                </a>
+
+                <a
+                    href="{% url 'resume_job_match' %}"
+                    class="btn btn-secondary"
+                >
+                    Check Job Match
+                </a>
+
+                <a
+                    href="{% url 'candidate_dashboard' %}"
+                    class="btn btn-secondary"
+                >
+                    Back to Dashboard
+                </a>
+            </div>
+        </section>
+
+    {% else %}
+
+        <section class="empty-state">
+            <h2>Resume Not Found</h2>
+
+            <p>
+                Analysis karne se pehle apna resume create karein.
+                Resume save hone ke baad aap uski completeness aur suggestions dekh sakte hain.
+            </p>
+
+            <a
+                href="{% url 'resume_builder' %}"
+                class="btn btn-primary"
+            >
+                Create My Resume
+            </a>
+        </section>
+
+    {% endif %}
+
+</main>
+
+<footer>
+    © {% now "Y" %} Job Portal. All rights reserved.
+</footer>
+
+</body>
+</html>

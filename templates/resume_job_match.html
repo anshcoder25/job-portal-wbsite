@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Resume–Job Match | Job Portal</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        header {
+            background: #1d4ed8;
+            color: white;
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        header h2 {
+            margin: 0;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 18px;
+            font-weight: bold;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 35px auto;
+        }
+
+        .intro,
+        .card {
+            background: white;
+            padding: 26px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 22px;
+        }
+
+        .intro h1 {
+            margin-top: 0;
+        }
+
+        .intro p {
+            line-height: 1.7;
+        }
+
+        .card h2,
+        .card h3 {
+            color: #2563eb;
+        }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .job-header h2 {
+            margin-top: 10px;
+            margin-bottom: 8px;
+        }
+
+        .source {
+            display: inline-block;
+            padding: 6px 10px;
+            background: #dbeafe;
+            color: #1d4ed8;
+            border-radius: 5px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .score {
+            font-size: 30px;
+            font-weight: bold;
+            color: #1d4ed8;
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 13px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 12px 0 20px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #2563eb;
+            border-radius: 10px;
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 12px 0 20px;
+        }
+
+        .skill {
+            padding: 7px 11px;
+            border-radius: 5px;
+            background: #dcfce7;
+            color: #166534;
+            font-size: 14px;
+        }
+
+        .missing {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .muted {
+            color: #64748b;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 10px;
+            margin-right: 8px;
+            padding: 11px 16px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-secondary {
+            background: #475569;
+        }
+
+        .btn-secondary:hover {
+            background: #334155;
+        }
+
+        .message {
+            padding: 14px 16px;
+            border-radius: 7px;
+            margin-bottom: 18px;
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .empty {
+            background: white;
+            padding: 28px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        footer {
+            text-align: center;
+            padding: 22px;
+            color: #64748b;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 18px 5%;
+            }
+
+            nav a {
+                margin-left: 0;
+                margin-right: 12px;
+            }
+
+            .container {
+                width: 92%;
+            }
+
+            .intro,
+            .card {
+                padding: 19px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h2>Job Portal</h2>
+
+    <nav>
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'candidate_dashboard' %}">Dashboard</a>
+        <a href="{% url 'resume_builder' %}">Resume Builder</a>
+        <a href="{% url 'my_applications' %}">My Applications</a>
+    </nav>
+</header>
+
+<main class="container">
+
+    <section class="intro">
+        <h1>Resume–Job Match Score</h1>
+
+        <p>
+            Compare your resume with job requirements, check your
+            matching skills, and identify skills that may need improvement.
+        </p>
+
+        <a href="{% url 'resume_builder' %}" class="btn">
+            Update Resume
+        </a>
+
+        <a href="{% url 'ai_resume_analyzer' %}"
+           class="btn btn-secondary">
+            AI Resume Analyzer
+        </a>
+    </section>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="message">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% if error_message %}
+        <div class="message">
+            {{ error_message }}
+        </div>
+    {% endif %}
+
+    <section class="card">
+        <h2>Your Resume Skills</h2>
+
+        {% if resume.skills %}
+            <p>{{ resume.skills }}</p>
+        {% else %}
+            <p class="muted">
+                Resume Builder mein apni skills add karein.
+            </p>
+        {% endif %}
+    </section>
+
+    <section>
+        <h2>Available Jobs</h2>
+
+        {% if matched_jobs %}
+
+            <p class="muted">
+                Total jobs found: {{ matched_jobs|length }}
+            </p>
+
+            {% for job in matched_jobs %}
+                <article class="card">
+
+                    <div class="job-header">
+                        <div>
+                            <span class="source">
+                                {{ job.source }}
+                            </span>
+
+                            <h2>{{ job.title }}</h2>
+
+                            <p>
+                                <strong>Company:</strong>
+                                {{ job.company }}
+                            </p>
+
+                            <p>
+                                <strong>Location:</strong>
+                                {{ job.location }}
+                            </p>
+                        </div>
+
+                        <div>
+                            <span class="muted">Match Score</span>
+                            <div class="score">
+                                {{ job.match_score }}%
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="progress-track">
+                        <div
+                            class="progress-fill"
+                            style="width: {{ job.match_score }}%;">
+                        </div>
+                    </div>
+
+                    <h3>Matched Skills</h3>
+
+                    {% if job.matched_skills %}
+                        <div class="skills">
+                            {% for skill in job.matched_skills %}
+                                <span class="skill">
+                                    {{ skill }}
+                                </span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="muted">
+                            Listed resume skills mein se koi match nahi mila.
+                        </p>
+                    {% endif %}
+
+                    <h3>Other Resume Skills</h3>
+
+                    {% if job.missing_skills %}
+                        <div class="skills">
+                            {% for skill in job.missing_skills %}
+                                <span class="skill missing">
+                                    {{ skill }}
+                                </span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p>
+                            Aapki sabhi listed resume skills job text mein mil gayi hain.
+                        </p>
+                    {% endif %}
+
+                    {% if job.description %}
+                        <h3>Job Description</h3>
+                        <p>{{ job.description|truncatewords:55 }}</p>
+                    {% endif %}
+
+                    {% if job.apply_url %}
+                        <a
+                            href="{{ job.apply_url }}"
+                            class="btn"
+                            target="_blank"
+                            rel="noopener noreferrer">
+                            View / Apply for Job
+                        </a>
+                    {% endif %}
+
+                </article>
+            {% endfor %}
+
+        {% else %}
+            <div class="empty">
+                <h3>No Jobs Available for Matching</h3>
+
+                <p>
+                    Adzuna API credentials check karein, resume skills
+                    add karein, ya portal par recruiter se job post karwayein.
+                </p>
+
+                <a href="{% url 'search_jobs' %}" class="btn">
+                    Search Jobs
+                </a>
+
+                <a href="{% url 'resume_builder' %}"
+                   class="btn btn-secondary">
+                    Update Resume
+                </a>
+            </div>
+        {% endif %}
+    </section>
+
+</main>
+
+<footer>
+    <p>Job Portal &copy; 2026 | Resume–Job Match</p>
+</footer>
+
+</body>
+</html>

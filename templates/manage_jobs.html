@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Jobs | Job Portal</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        header {
+            background: #1d4ed8;
+            color: white;
+            padding: 18px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        header h2 {
+            margin: 0;
+        }
+
+        nav {
+            display: flex;
+            gap: 18px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        main {
+            width: 92%;
+            max-width: 1100px;
+            margin: 35px auto;
+        }
+
+        .page-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+
+        h1 {
+            margin: 0 0 8px;
+            color: #1d4ed8;
+        }
+
+        .subtitle {
+            color: #64748b;
+            margin: 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 7px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn:hover {
+            background: #1d4ed8;
+        }
+
+        .delete-btn {
+            background: #dc2626;
+        }
+
+        .delete-btn:hover {
+            background: #b91c1c;
+        }
+
+        .job-card {
+            background: white;
+            padding: 23px;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            margin-bottom: 18px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
+        }
+
+        .job-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .job-card h2 {
+            margin: 0 0 8px;
+            color: #1e40af;
+        }
+
+        .company {
+            font-weight: bold;
+            margin: 5px 0;
+        }
+
+        .details {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 15px 0;
+        }
+
+        .tag {
+            background: #eff6ff;
+            color: #1d4ed8;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 13px;
+        }
+
+        .description {
+            line-height: 1.7;
+            white-space: pre-line;
+        }
+
+        .skills {
+            color: #475569;
+            line-height: 1.6;
+        }
+
+        .job-actions {
+            margin-top: 18px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .empty-state {
+            text-align: center;
+            background: white;
+            padding: 45px 20px;
+            border-radius: 12px;
+        }
+
+        .empty-state h2 {
+            color: #334155;
+        }
+
+        .message {
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 7px;
+            background: #eff6ff;
+            color: #1d4ed8;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 16px 5%;
+            }
+
+            nav {
+                gap: 12px;
+            }
+
+            main {
+                margin: 22px auto;
+            }
+
+            .job-card {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<header>
+    <h2>Job Portal</h2>
+    <nav>
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'post_job' %}">Post a Job</a>
+        <a href="{% url 'recruiter_dashboard' %}">Dashboard</a>
+    </nav>
+</header>
+
+<main>
+    <section class="page-heading">
+        <div>
+            <h1>Manage My Jobs</h1>
+            <p class="subtitle">
+                Yahan aapki post ki hui jobs ki list milegi.
+            </p>
+        </div>
+
+        <a href="{% url 'post_job' %}" class="btn">+ Post New Job</a>
+    </section>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="message">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    {% for job in jobs %}
+        <article class="job-card">
+            <div class="job-top">
+                <div>
+                    <h2>{{ job.title }}</h2>
+                    <p class="company">{{ job.company }}</p>
+                </div>
+
+                {% if job.is_active %}
+                    <span class="tag">Active</span>
+                {% else %}
+                    <span class="tag">Inactive</span>
+                {% endif %}
+            </div>
+
+            <div class="details">
+                <span class="tag">{{ job.location }}</span>
+                <span class="tag">{{ job.job_type }}</span>
+                <span class="tag">
+                    Salary: {{ job.salary|default:"Not specified" }}
+                </span>
+            </div>
+
+            <h3>Job Description</h3>
+            <p class="description">{{ job.description|truncatewords:60 }}</p>
+
+            {% if job.skills %}
+                <p class="skills">
+                    <strong>Required Skills:</strong> {{ job.skills }}
+                </p>
+            {% endif %}
+
+            <p class="skills">
+                <strong>Posted:</strong> {{ job.posted_at|date:"d M Y" }}
+            </p>
+
+            <div class="job-actions">
+                <form method="post"
+                      action="{% url 'delete_job' job.id %}"
+                      onsubmit="return confirm('Kya aap is job ko permanently delete karna chahte hain?');">
+                    {% csrf_token %}
+                    <button type="submit" class="btn delete-btn">
+                        Delete Job
+                    </button>
+                </form>
+            </div>
+        </article>
+    {% empty %}
+        <section class="empty-state">
+            <h2>Abhi koi job post nahi ki</h2>
+            <p>Apni pehli vacancy post karke candidates tak pahunchayein.</p>
+            <a href="{% url 'post_job' %}" class="btn">Post Your First Job</a>
+        </section>
+    {% endfor %}
+</main>
+</body>
+</html>

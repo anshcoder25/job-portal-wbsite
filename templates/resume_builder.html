@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Builder | Job Portal</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            color: #172033;
+            background: #f5f7fc;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .container {
+            width: min(1120px, 92%);
+            margin: auto;
+        }
+
+        header {
+            background: white;
+            border-bottom: 1px solid #e5e9f2;
+        }
+
+        nav {
+            min-height: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            color: #3157d5;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: #172033;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .btn {
+            display: inline-block;
+            border: none;
+            border-radius: 7px;
+            padding: 12px 18px;
+            background: #3157d5;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn:hover {
+            background: #2444b5;
+        }
+
+        .btn-secondary {
+            display: inline-block;
+            padding: 11px 17px;
+            border: 1px solid #dce2ed;
+            border-radius: 7px;
+            color: #172033;
+            background: white;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .hero {
+            padding: 40px 0;
+            text-align: center;
+            background: linear-gradient(135deg, #e8edff, white);
+        }
+
+        .eyebrow {
+            display: inline-block;
+            color: #3157d5;
+            background: #dfe7ff;
+            padding: 5px 14px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .hero h1 {
+            font-size: clamp(28px, 5vw, 40px);
+            line-height: 1.25;
+        }
+
+        .hero h1 span {
+            color: #3157d5;
+        }
+
+        .hero p {
+            max-width: 650px;
+            margin: 12px auto 0;
+            color: #687386;
+        }
+
+        .builder-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 290px;
+            gap: 24px;
+            align-items: start;
+            padding: 35px 0 50px;
+        }
+
+        .form-card,
+        .side-card {
+            background: white;
+            border: 1px solid #e5e9f2;
+            border-radius: 12px;
+            padding: 25px;
+        }
+
+        .form-heading {
+            margin-bottom: 22px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e5e9f2;
+        }
+
+        .form-heading h2 {
+            font-size: 23px;
+        }
+
+        .form-heading p,
+        .side-card p {
+            color: #687386;
+            font-size: 14px;
+        }
+
+        .section-title {
+            font-size: 17px;
+            margin: 25px 0 15px;
+            color: #3157d5;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 17px;
+        }
+
+        .form-group {
+            min-width: 0;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        .required {
+            color: #d93025;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #dce2ed;
+            border-radius: 7px;
+            font-family: inherit;
+            font-size: 14px;
+            color: #172033;
+            background: white;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: 2px solid #d7e0ff;
+            border-color: #3157d5;
+        }
+
+        textarea {
+            min-height: 110px;
+            resize: vertical;
+        }
+
+        .hint {
+            display: block;
+            color: #7b8495;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e9f2;
+        }
+
+        .design-controls {
+            margin-top: 22px;
+            padding: 16px;
+            background: #f7f8fc;
+            border-radius: 8px;
+        }
+
+        .design-controls select {
+            margin-top: 5px;
+        }
+
+        .side-card {
+            margin-bottom: 17px;
+        }
+
+        .side-card h3 {
+            font-size: 17px;
+            margin-bottom: 8px;
+        }
+
+        .side-icon {
+            font-size: 28px;
+            margin-bottom: 7px;
+        }
+
+        .tips-list {
+            padding-left: 19px;
+            color: #687386;
+            font-size: 14px;
+        }
+
+        .tips-list li {
+            margin: 8px 0;
+        }
+
+        .messages {
+            padding-top: 18px;
+        }
+
+        .message {
+            padding: 11px 15px;
+            background: #eaf8ef;
+            border: 1px solid #b8e5c7;
+            color: #176534;
+            border-radius: 7px;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .message.error {
+            background: #fff1f0;
+            border-color: #ffd5d2;
+            color: #a12622;
+        }
+
+        /* Resume Preview */
+
+        .resume-preview {
+            background: white;
+            border: 1px solid #dce2ed;
+            border-radius: 10px;
+            padding: 32px;
+            margin-top: 25px;
+            overflow-wrap: anywhere;
+        }
+
+        .resume-preview h2 {
+            color: #3157d5;
+            font-size: 30px;
+            line-height: 1.3;
+            margin-bottom: 8px;
+        }
+
+        .resume-preview .resume-contact {
+            color: #687386;
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+
+        .resume-preview h3 {
+            color: #3157d5;
+            border-bottom: 1px solid #dce2ed;
+            padding-bottom: 5px;
+            margin: 20px 0 8px;
+            font-size: 17px;
+        }
+
+        .resume-preview .resume-text {
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+            font-size: 14px;
+        }
+
+        .resume-preview[data-design="classic"] h2,
+        .resume-preview[data-design="classic"] h3 {
+            color: #222222;
+        }
+
+        .resume-preview[data-design="classic"] {
+            border-top: 5px solid #222222;
+            font-family: Georgia, serif;
+        }
+
+        .resume-preview[data-design="green"] h2,
+        .resume-preview[data-design="green"] h3 {
+            color: #16734a;
+        }
+
+        .resume-preview[data-design="green"] {
+            border-top: 5px solid #16734a;
+        }
+
+        [hidden] {
+            display: none !important;
+        }
+
+        footer {
+            background: #111a2c;
+            color: white;
+            padding: 28px 0;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        footer p {
+            color: #bdc6d8;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 850px) {
+            .builder-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 15px;
+            }
+
+            .side-card {
+                margin-bottom: 0;
+            }
+        }
+
+        @media (max-width: 580px) {
+            nav {
+                padding: 14px 0;
+            }
+
+            .nav-links {
+                gap: 10px;
+            }
+
+            .form-grid,
+            .sidebar {
+                grid-template-columns: 1fr;
+            }
+
+            .full-width {
+                grid-column: auto;
+            }
+
+            .form-card,
+            .side-card {
+                padding: 18px;
+            }
+
+            .form-actions .btn,
+            .form-actions .btn-secondary {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        @media print {
+            @page {
+                size: A4;
+                margin: 15mm;
+            }
+
+            body * {
+                visibility: hidden !important;
+            }
+
+            #resumePreview,
+            #resumePreview * {
+                visibility: visible !important;
+            }
+
+            #resumePreview {
+                display: block !important;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                margin: 0;
+                padding: 0;
+                border: none;
+                border-radius: 0;
+                font-size: 12pt;
+                color: #111;
+            }
+
+            #resumePreview h2 {
+                font-size: 24pt;
+            }
+
+            #resumePreview h3 {
+                break-after: avoid;
+            }
+
+            #resumePreview .no-print {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="container">
+        <nav>
+            <a href="{% url 'home' %}" class="logo">Job Portal</a>
+
+            <div class="nav-links">
+                <a href="{% url 'home' %}">Home</a>
+                <a href="{% url 'candidate_dashboard' %}">My Dashboard</a>
+                <a href="{% url 'resume_builder' %}">Resume Builder</a>
+
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn">Logout</button>
+                </form>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <section class="hero">
+        <div class="container">
+            <span class="eyebrow">BUILD YOUR CAREER</span>
+            <h1>Create Your <span>Professional Resume</span></h1>
+            <p>
+                Add your education, skills and experience to create
+                a professional resume for your next career opportunity.
+            </p>
+        </div>
+    </section>
+
+    <div class="container messages">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="message {% if message.tags == 'error' %}error{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <div class="container builder-layout">
+
+        <section class="form-card">
+
+            <div class="form-heading">
+                <h2>Resume Details</h2>
+                <p>Fields marked with <span class="required">*</span> are required.</p>
+            </div>
+
+            <form method="post" action="{% url 'resume_builder' %}" id="resumeForm">
+                {% csrf_token %}
+
+                <h3 class="section-title">👤 Personal Information</h3>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="full_name">Full Name <span class="required">*</span></label>
+                        <input type="text" id="full_name" name="full_name"
+                               value="{{ resume.full_name|default:'' }}"
+                               placeholder="Enter your full name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address <span class="required">*</span></label>
+                        <input type="email" id="email" name="email"
+                               value="{{ resume.email|default:'' }}"
+                               placeholder="you@example.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone"
+                               value="{{ resume.phone|default:'' }}"
+                               placeholder="Enter your phone number">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">City / Address</label>
+                        <input type="text" id="address" name="address"
+                               value="{{ resume.address|default:'' }}"
+                               placeholder="City, State">
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="career_objective">Career Objective</label>
+                        <textarea id="career_objective" name="career_objective"
+                                  placeholder="Write your career goals and strengths">{{ resume.career_objective|default:'' }}</textarea>
+                    </div>
+                </div>
+
+                <h3 class="section-title">🎓 Education & Skills</h3>
+
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label for="education">Education <span class="required">*</span></label>
+                        <textarea id="education" name="education"
+                                  placeholder="Degree, institution, passing year and grade"
+                                  required>{{ resume.education|default:'' }}</textarea>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="skills">Skills <span class="required">*</span></label>
+                        <textarea id="skills" name="skills"
+                                  placeholder="Python, Django, HTML, CSS, SQL"
+                                  required>{{ resume.skills|default:'' }}</textarea>
+                    </div>
+                </div>
+
+                <h3 class="section-title">💼 Experience & Achievements</h3>
+
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label for="experience">Work Experience</label>
+                        <textarea id="experience" name="experience"
+                                  placeholder="Job title, company, duration and responsibilities">{{ resume.experience|default:'' }}</textarea>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="projects">Projects</label>
+                        <textarea id="projects" name="projects"
+                                  placeholder="Project name, technologies and description">{{ resume.projects|default:'' }}</textarea>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="certifications">Certifications & Courses</label>
+                        <textarea id="certifications" name="certifications"
+                                  placeholder="Certificate name, organization and year">{{ resume.certifications|default:'' }}</textarea>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn">Save Resume</button>
+
+                    <button type="button" class="btn" id="previewBtn">
+                        Preview Resume
+                    </button>
+
+                    <button type="button" class="btn" id="downloadBtn">
+                        Download PDF
+                    </button>
+
+                    <a href="{% url 'candidate_dashboard' %}"
+                       class="btn-secondary">Back to Dashboard</a>
+                </div>
+
+                <div class="design-controls">
+                    <label for="resumeDesign">Choose Resume Design</label>
+                    <select id="resumeDesign">
+                        <option value="modern">Modern Blue</option>
+                        <option value="classic">Classic Black</option>
+                        <option value="green">Professional Green</option>
+                    </select>
+                    <span class="hint">
+                        Choose a design before previewing or downloading.
+                    </span>
+                </div>
+            </form>
+
+            <section id="resumePreview" class="resume-preview"
+                     data-design="modern" hidden>
+
+                <h2 id="previewName">Your Name</h2>
+                <p id="previewContact" class="resume-contact"></p>
+
+                <div id="objectiveSection">
+                    <h3>Career Objective</h3>
+                    <p id="previewObjective" class="resume-text"></p>
+                </div>
+
+                <div id="educationSection">
+                    <h3>Education</h3>
+                    <p id="previewEducation" class="resume-text"></p>
+                </div>
+
+                <div id="skillsSection">
+                    <h3>Skills</h3>
+                    <p id="previewSkills" class="resume-text"></p>
+                </div>
+
+                <div id="experienceSection">
+                    <h3>Work Experience</h3>
+                    <p id="previewExperience" class="resume-text"></p>
+                </div>
+
+                <div id="projectsSection">
+                    <h3>Projects</h3>
+                    <p id="previewProjects" class="resume-text"></p>
+                </div>
+
+                <div id="certificationsSection">
+                    <h3>Certifications & Courses</h3>
+                    <p id="previewCertifications" class="resume-text"></p>
+                </div>
+
+                <div class="form-actions no-print">
+                    <button type="button" class="btn" id="editResumeBtn">
+                        Edit Resume
+                    </button>
+                </div>
+            </section>
+
+        </section>
+
+        <aside class="sidebar">
+            <div class="side-card">
+                <div class="side-icon">📄</div>
+                <h3>Your Resume, Your Future</h3>
+                <p>
+                    Keep your details updated so you are ready
+                    when the right opportunity comes along.
+                </p>
+            </div>
+
+            <div class="side-card">
+                <div class="side-icon">✨</div>
+                <h3>Tips for a Strong Resume</h3>
+                <ul class="tips-list">
+                    <li>Use a clear professional name.</li>
+                    <li>List relevant skills.</li>
+                    <li>Add projects if you are a fresher.</li>
+                    <li>Keep education details accurate.</li>
+                    <li>Use short descriptions.</li>
+                </ul>
+            </div>
+
+            <div class="side-card">
+                <div class="side-icon">🔒</div>
+                <h3>Save Your Progress</h3>
+                <p>
+                    Click Save Resume to submit your details
+                    to your account.
+                </p>
+            </div>
+        </aside>
+
+    </div>
+</main>
+
+<footer>
+    <div class="container footer-content">
+        <div>
+            <a href="{% url 'home' %}" class="logo" style="color:white;">
+                Job Portal
+            </a>
+            <p>Connecting job seekers with career opportunities.</p>
+        </div>
+
+        <div>
+            <p>Build your profile. Showcase your skills. Grow your career.</p>
+            <p>© {% now "Y" %} Job Portal. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("resumeForm");
+    const preview = document.getElementById("resumePreview");
+    const designSelect = document.getElementById("resumeDesign");
+
+    const fieldMap = {
+        full_name: "previewName",
+        career_objective: "previewObjective",
+        education: "previewEducation",
+        skills: "previewSkills",
+        experience: "previewExperience",
+        projects: "previewProjects",
+        certifications: "previewCertifications"
+    };
+
+    function valueOf(name) {
+        return form.elements[name].value.trim();
+    }
+
+    function updatePreview() {
+        Object.entries(fieldMap).forEach(function ([field, target]) {
+            const element = document.getElementById(target);
+            element.textContent = valueOf(field) || "Not provided";
+        });
+
+        const contactDetails = [
+            valueOf("email"),
+            valueOf("phone"),
+            valueOf("address")
+        ].filter(Boolean);
+
+        document.getElementById("previewContact").textContent =
+            contactDetails.join(" | ");
+
+        preview.dataset.design = designSelect.value;
+
+        const optionalSections = {
+            career_objective: "objectiveSection",
+            education: "educationSection",
+            skills: "skillsSection",
+            experience: "experienceSection",
+            projects: "projectsSection",
+            certifications: "certificationsSection"
+        };
+
+        Object.entries(optionalSections).forEach(function ([field, id]) {
+            document.getElementById(id).hidden = !valueOf(field);
+        });
+    }
+
+    function showPreview() {
+        if (!form.reportValidity()) {
+            return false;
+        }
+
+        updatePreview();
+        preview.hidden = false;
+
+        preview.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+
+        return true;
+    }
+
+    document.getElementById("previewBtn").addEventListener(
+        "click", showPreview
+    );
+
+    designSelect.addEventListener("change", function () {
+        updatePreview();
+    });
+
+    document.getElementById("downloadBtn").addEventListener(
+        "click", function () {
+            if (!showPreview()) {
+                return;
+            }
+
+            // Browser print dialog: choose Save as PDF.
+            setTimeout(function () {
+                window.print();
+            }, 250);
+        }
+    );
+
+    document.getElementById("editResumeBtn").addEventListener(
+        "click", function () {
+            form.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+        }
+    );
+
+    // Refresh preview automatically while editing.
+    form.addEventListener("input", function () {
+        if (!preview.hidden) {
+            updatePreview();
+        }
+    });
+
+    updatePreview();
+});
+</script>
+
+</body>
+</html>
