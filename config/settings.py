@@ -27,10 +27,10 @@ load_dotenv(BASE_DIR / ".env")
 SECRET_KEY = 'django-insecure-+v35+an^@c=n@imlj-b6+6!s@50w_)hhq@@4a!y-_*ps$aswf6'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
-    "https://job-portal-wbsite-2.onrender.com",
+    "job-portal-wbsite-2.onrender.com",
     "localhost",
     "127.0.0.1"
 ]
