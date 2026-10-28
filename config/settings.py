@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-+v35+an^@c=n@imlj-b6+6!s@50w_)hhq@@4a!y-_*ps$aswf6
 DEBUG = False
 
 ALLOWED_HOSTS = [
-    "job-portal-wbsite-2.onrender.com",
+    "job-portal-wbsite-3.onrender.com",
     "localhost",
     "127.0.0.1"
 ]
